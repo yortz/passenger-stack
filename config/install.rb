@@ -1,5 +1,5 @@
 # Require our stack
-%w(essential server scm ruby_enterprise memcached postgresql mysql).each do |r|
+%w(essential server scm ruby_enterprise memcached postgresql mysql image_management).each do |r|
   require File.join(File.dirname(__FILE__), 'stack', r)
 end
 
@@ -8,7 +8,8 @@ policy :passenger_stack, :roles => :app do
   requires :database
   requires :database_driver
   requires :webserver
-  requires :scm 
+  requires :scm
+  requires :image_management
   requires :memcached
   requires :libmemcached
   requires :ruby_enterprise
