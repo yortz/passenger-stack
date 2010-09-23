@@ -20,8 +20,8 @@ policy :passenger_stack, :roles => :app do
   requires :database                # MySQL or Postgres
   requires :ruby_database_driver    # mysql or postgres gems
   requires :scm                     # Git
-  requires :memcached               # Memcached
-  requires :libmemcached            # Libmemcached
+#  requires :memcached               # Memcached
+#  requires :libmemcached            # Libmemcached
 end
 
 deployment do
