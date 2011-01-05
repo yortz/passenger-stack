@@ -1,4 +1,3 @@
-
 %w(essential apache scm ruby_enterprise memcached postgresql mysql image_management).each do |r|
   require File.join(File.dirname(__FILE__), 'stack', r)
 end

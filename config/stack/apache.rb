@@ -18,7 +18,7 @@ end
 
 package :passenger, :provides => :appserver do
   description 'Phusion Passenger (mod_rails)'
-  version '2.2.15'
+  version '3.0.1'
   gem 'passenger' do
     post :install, 'echo -en "\n\n\n\n" | sudo passenger-install-apache2-module'
 
@@ -30,6 +30,7 @@ package :passenger, :provides => :appserver do
     [%Q(LoadModule passenger_module /usr/local/ruby-enterprise/lib/ruby/gems/1.8/gems/passenger-#{version}/ext/apache2/mod_passenger.so),
     %Q(PassengerRoot /usr/local/ruby-enterprise/lib/ruby/gems/1.8/gems/passenger-#{version}),
     %q(PassengerRuby /usr/local/bin/ruby),
+    %q(RackEnv production),
     %q(RailsEnv production)].each do |line|
       post :install, "echo '#{line}' |sudo tee -a /etc/apache2/extras/passenger.conf"
     end
