@@ -19,8 +19,8 @@ policy :passenger_stack, :roles => :app do
   requires :database                # MySQL or Postgres
   requires :ruby_database_driver    # mysql or postgres gems
   requires :scm                     # Git
-#  requires :memcached               # Memcached
-#  requires :libmemcached            # Libmemcached
+  requires :memcached               # Memcached
+  requires :libmemcached            # Libmemcached
 end
 
 deployment do
@@ -43,8 +43,8 @@ end
 
 # Depend on a specific version of sprinkle 
 begin
-  gem 'sprinkle', ">= 0.2.1" 
+  gem 'sprinkle', ">= 0.3.3" 
 rescue Gem::LoadError
-  puts "sprinkle 0.2.1 required.\n Run: `sudo gem install sprinkle`"
+  puts "sprinkle 0.3.3 required.\n Run: `sudo gem install sprinkle`"
   exit
 end

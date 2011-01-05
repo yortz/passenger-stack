@@ -1,6 +1,6 @@
 package :apache, :provides => :webserver do
   description 'Apache2 web server.'
-  apt 'apache2 apache2.2-common apache2-mpm-prefork apache2-utils libexpat1 ssl-cert' do
+  apt 'apache2 apache2.2-common apache2-mpm-prefork apache2-utils libexpat1 ssl-cert libcurl4-openssl-dev' do
     post :install, 'a2enmod rewrite'
   end
 
@@ -18,7 +18,7 @@ end
 
 package :passenger, :provides => :appserver do
   description 'Phusion Passenger (mod_rails)'
-  version '3.0.1'
+  version '3.0.2'
   gem 'passenger' do
     post :install, 'echo -en "\n\n\n\n" | sudo passenger-install-apache2-module'
 
