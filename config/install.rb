@@ -1,5 +1,8 @@
-%w(essential apache scm ruby_enterprise memcached postgresql mysql image_management).each do |r|
-  require File.join(File.dirname(__FILE__), 'stack', r)
+$:<< File.join(File.dirname(__FILE__), 'stack')
+
+# Require the stack base
+%w(essential scm ruby_enterprise memcached postgresql mysql apache image_management).each do |lib|
+  require lib
 end
 
 # What we're installing to your server
@@ -7,20 +10,13 @@ end
 # Build up your own and strip down your server until you get it right. 
 policy :passenger_stack, :roles => :app do
   requires :webserver               # Apache
-
-  requires :image_management
-  
-  requires :apache_etag_support     # == Apache extras
-  requires :apache_deflate_support  # Read about these specialties in 
-  requires :apache_expires_support  # stack/apache.rb
-
   requires :appserver               # Passenger
   requires :ruby_enterprise         # Ruby Enterprise edition
+  requires :image_management        # ImageMagick
   requires :database                # MySQL or Postgres
-  requires :ruby_database_driver    # mysql or postgres gems
   requires :scm                     # Git
-  requires :memcached               # Memcached
-  requires :libmemcached            # Libmemcached
+  # requires :memcached               # Memcached
+  # requires :libmemcached            # Libmemcached
 end
 
 deployment do
