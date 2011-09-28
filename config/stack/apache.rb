@@ -19,12 +19,12 @@ end
 
 package :passenger, :provides => :appserver do
   description 'Phusion Passenger (mod_rails)'
-  version '3.0.7'
+  version '3.0.8'
   binaries = %w(passenger-config passenger-install-nginx-module passenger-install-apache2-module passenger-make-enterprisey passenger-memory-stats passenger-spawn-server passenger-status passenger-stress-test)
   
   gem 'passenger' do
     
-    binaries.each {|bin| post :install, "ln -s #{REE_PATH}/bin/#{bin} /usr/local/bin/#{bin}"}
+    binaries.each {|bin| post :install, "ln -s #{RUBY_PATH}/bin/#{bin} /usr/local/bin/#{bin}"}
     
     post :install, 'echo -en "\n\n\n\n" | sudo passenger-install-apache2-module'
 
@@ -33,8 +33,8 @@ package :passenger, :provides => :appserver do
     post :install, 'touch /etc/apache2/extras/passenger.conf'
     post :install, 'echo "Include /etc/apache2/extras/passenger.conf"|sudo tee -a /etc/apache2/apache2.conf'
 
-    [%Q(LoadModule passenger_module /usr/local/ruby-enterprise/lib/ruby/gems/1.8/gems/passenger-#{version}/ext/apache2/mod_passenger.so),
-    %Q(PassengerRoot /usr/local/ruby-enterprise/lib/ruby/gems/1.8/gems/passenger-#{version}),
+    [%Q(LoadModule passenger_module #{RUBY_PATH}/lib/ruby/gems/1.8/gems/passenger-#{version}/ext/apache2/mod_passenger.so),
+    %Q(PassengerRoot #{RUBY_PATH}/lib/ruby/gems/1.8/gems/passenger-#{version}),
     %q(PassengerRuby /usr/local/bin/ruby),
     %q(RackEnv production),
     %q(RailsEnv production)].each do |line|
@@ -47,11 +47,11 @@ package :passenger, :provides => :appserver do
 
   verify do
     has_file "/etc/apache2/extras/passenger.conf"
-    has_file "/usr/local/ruby-enterprise/lib/ruby/gems/1.8/gems/passenger-#{version}/ext/apache2/mod_passenger.so"
-    has_directory "/usr/local/ruby-enterprise/lib/ruby/gems/1.8/gems/passenger-#{version}"
+    has_file "#{RUBY_PATH}/lib/ruby/gems/1.8/gems/passenger-#{version}/ext/apache2/mod_passenger.so"
+    has_directory "#{RUBY_PATH}/lib/ruby/gems/1.8/gems/passenger-#{version}"
   end
 
-  requires :apache, :apache2_prefork_dev, :ruby_enterprise
+  requires :apache, :apache2_prefork_dev, :ruby
 end
 
 # These "installers" are strictly optional, I believe

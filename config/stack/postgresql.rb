@@ -17,5 +17,5 @@ package :postgresql_driver, :provides => :ruby_database_driver do
     has_gem 'postgres'
   end
   
-  requires :ruby_enterprise
+  requires :ruby
 end

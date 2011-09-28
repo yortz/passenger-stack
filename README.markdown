@@ -35,7 +35,7 @@ Other things you should probably consider:
   * Scripts and stylesheets are compressed using mod_deflate
   * ETags are applied to static assets
   * Expires headers are applied to static assets
-* Ruby Enterprise (Source) [includes rubygems]
+* Ruby Enterprise (Source) or MRI Ruby [includes rubygems]
 * Passenger (Rubygem)
 * Memcached (Apt)
 * Libmemcached (Source)
