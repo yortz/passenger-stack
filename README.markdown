@@ -40,7 +40,7 @@ Other things you should probably consider:
 
 ### Wait, what does all this install?
 
-- INSTALL:
+INSTALL:
 
 * Apache (Apt)
   * Scripts and stylesheets are compressed using mod_deflate
@@ -54,7 +54,7 @@ Other things you should probably consider:
 * Terminal Colors
 * Several utilities such as Vim, curl, rsync etc...
 
-- SECURE:
+SECURE:
 
 * Add public keys to tour VPS
 * Allow added user to perform sudo commands
