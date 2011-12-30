@@ -1,7 +1,17 @@
-# Fill slice_url in - where you're installing your stack to
+## SECURE
+# # Fill slice_url in - where you're installing your stack to
+# role :app, "your-app-server.com"
+# 
+# # Fill user in - if remote user is different to your local user
+# set :user, "root"
+# set :use_sudo, true
+# default_run_options[:pty] = true
+
+## INSTALL
+# # Fill slice_url in - where you're installing your stack to
 role :app, "your-app-server.com"
-
-# Fill user in - if remote user is different to your local user
-# set :user, "username"
-
+set :user, "user"
+set :use_sudo, true
 default_run_options[:pty] = true
+ssh_options[:keys] = %w(/Users/yortz/.ssh/id_key)
+ssh_options[:port] = 12345

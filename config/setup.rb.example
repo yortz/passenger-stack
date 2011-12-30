@@ -1,0 +1,8 @@
+USER_TO_ADD = 'user'
+USER_PWD = 'pass'
+KEY = 'id_key.pub'
+PUBLIC_KEY_PATH = %{/Users/user/.ssh}
+HOST = "hostname"
+RUBY_PATH = "/usr/local/ruby"
+GIT_HOST = "github.com"
+DB_ROOT_PWD = 'root_pw'
