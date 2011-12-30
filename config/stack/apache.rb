@@ -19,7 +19,7 @@ end
 
 package :passenger, :provides => :appserver do
   description 'Phusion Passenger (mod_rails)'
-  version '3.0.8'
+  version '3.0.11'
   binaries = %w(passenger-config passenger-install-nginx-module passenger-install-apache2-module passenger-make-enterprisey passenger-memory-stats passenger-spawn-server passenger-status passenger-stress-test)
   
   gem 'passenger' do
@@ -33,8 +33,8 @@ package :passenger, :provides => :appserver do
     post :install, 'touch /etc/apache2/extras/passenger.conf'
     post :install, 'echo "Include /etc/apache2/extras/passenger.conf"|sudo tee -a /etc/apache2/apache2.conf'
 
-    [%Q(LoadModule passenger_module #{RUBY_PATH}/lib/ruby/gems/1.8/gems/passenger-#{version}/ext/apache2/mod_passenger.so),
-    %Q(PassengerRoot #{RUBY_PATH}/lib/ruby/gems/1.8/gems/passenger-#{version}),
+    [%Q(LoadModule passenger_module #{RUBY_PATH}/lib/ruby/gems/1.9.1/gems/passenger-#{version}/ext/apache2/mod_passenger.so),
+    %Q(PassengerRoot #{RUBY_PATH}/lib/ruby/gems/1.9.1/gems/passenger-#{version}),
     %q(PassengerRuby /usr/local/bin/ruby),
     %q(RackEnv production),
     %q(RailsEnv production)].each do |line|
@@ -47,8 +47,8 @@ package :passenger, :provides => :appserver do
 
   verify do
     has_file "/etc/apache2/extras/passenger.conf"
-    has_file "#{RUBY_PATH}/lib/ruby/gems/1.8/gems/passenger-#{version}/ext/apache2/mod_passenger.so"
-    has_directory "#{RUBY_PATH}/lib/ruby/gems/1.8/gems/passenger-#{version}"
+    has_file "#{RUBY_PATH}/lib/ruby/gems/1.9.1/gems/passenger-#{version}/ext/apache2/mod_passenger.so"
+    has_directory "#{RUBY_PATH}/lib/ruby/gems/1.9.1/gems/passenger-#{version}"
   end
 
   requires :apache, :apache2_prefork_dev, :ruby
@@ -104,4 +104,21 @@ eol
 
   push_text config, apache_conf, :sudo => true
   verify { file_contains apache_conf, "Passenger-stack-expires"}
+end
+
+package :fixhost do
+  description "FIX apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1 for ServerName"
+  
+  servername_conf = '/etc/apache2/conf.d/servername.conf'
+  servername_config = %Q\
+ServerName #{USER_TO_ADD}
+  \
+
+  runner 'sudo touch /etc/apache2/conf.d/servername.conf'
+  push_text servername_config, servername_conf, :sudo => true
+  
+  verify { file_contains servername_conf, "ServerName #{USER_TO_ADD}" }
+  
+  requires :webserver
+  
 end
