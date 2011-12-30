@@ -10,12 +10,21 @@ Scripts for [Sprinkle](http://github.com/crafterm/sprinkle/ "Sprinkle"), the pro
 * Set your slices url / ip address in deploy.rb (config/deploy.rb.example provided)
 * Set username in config/deploy.rb if it isn't the same as your local machine (config/deploy.rb.example provided)
 
+## How to:
+
 From your local system (from the passenger-stack directory), run:
 
-    sprinkle -c -s config/install.rb
+    sprinkle -v -c -s config/install.rb
 
 After you've waited for everything to run, you should have a provisioned slice.
 Go forth and install your custom configurations, add vhosts and other VPS paraphernalia.
+
+If you want to secure your brand new VPS first run:
+
+    sprinkle -v -c -s config/secure.rb
+
+Be sure to edit accordingly your config params in config/install.rb and uncomment relevant sections in deploy.rb.example
+
 
 ### My app isn't running!?
 
@@ -31,17 +40,45 @@ Other things you should probably consider:
 
 ### Wait, what does all this install?
 
+- INSTALL:
+
 * Apache (Apt)
   * Scripts and stylesheets are compressed using mod_deflate
   * ETags are applied to static assets
   * Expires headers are applied to static assets
-* Ruby Enterprise (Source) or MRI Ruby [includes rubygems]
+* Ruby MRI [includes rubygems]
 * Passenger (Rubygem)
-* Memcached (Apt)
-* Libmemcached (Source)
-* MySQL (Apt) or PostgreSQL (Apt)
-* MySQL or PostgreSQL ruby database drivers (Rubygem)
+* MySQL (Apt)
+* MySQL ruby database drivers (Rubygem)
 * Git (Apt)
+* Terminal Colors
+* Several utilities such as Vim, curl, rsync etc...
+
+- SECURE:
+
+* Add public keys to tour VPS
+* Allow added user to perform sudo commands
+* Import assets/sshd_config
+* Run ssh on non standard port
+* Import assets/iptables and closing some ports
+* Set the hostname
+
+### Please NOTE!
+
+If you will be "securing" your vps before installing the stack packages, you will need to edit the deploy.rb.example file accordingly, since you will not reach anymore your VPS on standard ssh port and authentication will be based on ssh public/private key pairs. You can decide to not secure your stack before installing packages, so just get rid of the first part and do the provisioning as usual. Also, if you want to secure your stack you will need to edit the relevant parts in:
+
+* assets/iptables
+
+  #  Allows SSH connections
+  #
+  -A INPUT -p tcp -m state --state NEW --dport 12345 -j ACCEPT
+
+* assets/sshd_config
+
+  # What ports, IPs and protocols we listen for
+  Port 12345
+  AllowUsers user
+  
 
 ## Requirements
 * Ruby
